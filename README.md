@@ -1,9 +1,9 @@
 # LCT 0.1.0-alpha
 
 Implementation of the Link Cut Tree data structure. A description of this
-implementation is given in the "Implementing the Link-Cut Tree"
-[paper]. The goal of this implementation is to provide a simple API for
-this data structure and two implementations that can be used when testing
+implementation is given in the "Implementing the Link-Cut Tree" paper. The
+goal of this implementation is to provide a simple API for this data
+structure and two implementations that can be used when testing
 experimental algorithms. We also plan to support bindings for several
 languages. We currently support C, Java and Python.
 
@@ -153,7 +153,6 @@ through Fundação para a Ciência e Tecnologia ([FCT]) with reference
 [License]: #license
 [Acknowledgments]: #acknowledgments
 
-[paper]:
 [Arch Linux]: https://archlinux.org/
 [Debian]: https://www.debian.org/
 [gcc]: https://gcc.gnu.org/
