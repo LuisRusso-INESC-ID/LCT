@@ -6,6 +6,10 @@
 
 (ql:quickload "cffi")
 
+(ql:quickload "split-sequence")
+;; (princ
+;; 	(split-sequence:SPLIT-SEQUENCE #\Space "A stitch in time saves nine.") )
+
 (defpackage :cffi-lct
   (:use :common-lisp :cffi))
 
@@ -83,6 +87,8 @@
   (f :pointer)
   (v :unsigned-int))
 
+
+
 (defparameter *f* nil)
 ;;(allocLCT 10)
 
@@ -90,42 +96,48 @@
       while line do
       (when (not (eql #\# (char line 0)))
 	(setf op (read-from-string line))
+	(setf tok (split-sequence:SPLIT-SEQUENCE #\Space line))
 	(cond
-	  ((eql op "Access")
+	  ((string-equal (car tok) "allocLCT")
+	   (when *f* (foreign-funcall "free" :pointer *f*))
+	   (setf *f* (allocLCT (read-from-string (cadr tok)))))
+
+	  ((string-equal (car tok) "Access")
+	   (Access *f*
+		   (read-from-string (cadr tok))
+		   (read-from-string (caddr tok))))
+	  ((string-equal (car tok) "getNode")
 
 	   )
-	  ((eql op "getNode")
+	  ((string-equal (car tok) "edgeQ")
 
 	   )
-	  ((eql op "edgeQ")
+	  ((string-equal (car tok) "cut")
 
 	   )
-	  ((eql op "cut")
+	  ((string-equal (car tok) "reRoot")
 
 	   )
-	  ((eql op "reRoot")
+	  ((string-equal (car tok) "LCA")
 
 	   )
-	  ((eql op "LCA")
+	  ((string-equal (car tok) "Link")
 
 	   )
-	  ((eql op "Link")
+	  ((string-equal (car tok) "LinkW")
 
 	   )
-	  ((eql op "LinkW")
+	  ((string-equal (car tok) "getCost")
 
 	   )
-	  ((eql op "getCost")
+	  ((string-equal (car tok) "update")
 
 	   )
-	  ((eql op "update")
+	  ((string-equal (car tok) "getMin")
 
 	   )
-	  ((eql op "getMin")
-
-	   )
-	  ((eql op end) (return)))
-	(format t "~a~%" (read-from-string line))
+	  ((string-equal (car tok) "end") (return)))
+	(format t "~a~%" (car tok))
 	))
 
 ;; (link *f* 2 3)
