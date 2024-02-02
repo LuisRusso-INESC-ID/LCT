@@ -1,0 +1,29 @@
+allocLCT 10
+edgeQ 2 1
+# false
+reRoot 8
+reRoot 10
+LCA 2 9
+# 0
+edgeQ 7 2
+# false
+Link 7 1
+edgeQ 9 2
+# false
+reRoot 5
+edgeQ 10 2
+# false
+LCA 7 2
+# 0
+reRoot 6
+reRoot 4
+Link 4 3
+edgeQ 10 9
+# false
+Access 3
+# 0
+LCA 8 8
+# 8
+LCA 3 4
+# 3
+end
