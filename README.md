@@ -116,7 +116,7 @@ For the lisp version we use [cffi] through quicklisp. Use the following
 commands:
 
 ```
-makelibSplayLCT.so libPointerLCT.so
+make libSplayLCT.so libPointerLCT.so
 clisp lct.lisp < input
 ```
 
