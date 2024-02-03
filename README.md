@@ -1,4 +1,4 @@
-# LCT 0.1.0-alpha
+# LCT 0.2.0-alpha
 
 Implementation of the Link Cut Tree data structure. A description of this
 implementation is given in the "Implementing the Link-Cut Tree" paper. The
@@ -112,8 +112,8 @@ make jLCT.h libSplayLCT.so libPointerLCT.so
 java -cp . -Djava.library.path=. jLCT < input
 ```
 
-For the lisp version we use cffi through quicklisp. So after installing
-quicklist use the following commands:
+For the lisp version we use [cffi] through quicklisp. Use the following
+commands:
 
 ```
 makelibSplayLCT.so libPointerLCT.so
@@ -172,6 +172,7 @@ through Fundação para a Ciência e Tecnologia ([FCT]) with reference
 [Java]: https://openjdk.org/
 [Pahole]: https://github.com/acmel/dwarves
 [DOI]: https://doi.org/10.54499/UIDB/50021/2020
+[cffi]: https://cffi.common-lisp.dev/
 
 [issue]: ../../issues
 [luis.russo@tecnico.ulisboa.pt]: mailto:luis.russo@tecnico.ulisboa.pt
