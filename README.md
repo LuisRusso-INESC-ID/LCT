@@ -5,7 +5,7 @@ implementation is given in the "Implementing the Link-Cut Tree" paper. The
 goal of this implementation is to provide a simple API for this data
 structure and two implementations that can be used when testing
 experimental algorithms. We also plan to support bindings for several
-languages. We currently support C, Java and Python.
+languages. We currently support C, Java, Python and lisp.
 
 ## Table of contents
 
@@ -111,6 +111,15 @@ The java version does not automatically build, so use the following commands:
 make jLCT.h libSplayLCT.so libPointerLCT.so
 java -cp . -Djava.library.path=. jLCT < input
 ```
+
+For the lisp version we use cffi through quicklisp. So after installing
+quicklist use the following commands:
+
+```
+makelibSplayLCT.so libPointerLCT.so
+clisp lct.lisp < input
+```
+
 
 ## Contributing
 

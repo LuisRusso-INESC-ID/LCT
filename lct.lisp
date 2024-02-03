@@ -41,9 +41,9 @@
 (defcfun "getNode" :unsigned-int
   (f :pointer)
   (v :unsigned-int)
-  (d :unsigned-int))
+  (d :int))
 
-(defcfun "edgeQ" :int
+(defcfun "edgeQ" :unsigned-char
   (f :pointer)
   (u :unsigned-int)
   (v :unsigned-int))
@@ -87,62 +87,71 @@
   (f :pointer)
   (v :unsigned-int))
 
-
-
 (defparameter *f* nil)
-;;(allocLCT 10)
-
 (loop for line = (read-line)
+      for i from 1
       while line do
       (when (not (eql #\# (char line 0)))
-	(setf op (read-from-string line))
+	(format t "# ~d : ~a~%" i line)
 	(setf tok (split-sequence:SPLIT-SEQUENCE #\Space line))
+	(setf op (car tok))
 	(cond
-	  ((string-equal (car tok) "allocLCT")
+	  ((string-equal op "allocLCT")
 	   (when *f* (foreign-funcall "free" :pointer *f*))
 	   (setf *f* (allocLCT (read-from-string (cadr tok)))))
 
-	  ((string-equal (car tok) "Access")
+	  ((string-equal op "Access")
+	   (format t "~d~%"
 	   (Access *f*
+		   (read-from-string (cadr tok)))))
+	  ((string-equal op "getNode")
+	   (format t "~d~%"
+		   (getNode *f*
+			    (read-from-string (cadr tok))
+			    (read-from-string (caddr tok)))))
+	  ((string-equal op "edgeQ")
+	   (if (eql 0
+		    (edgeQ *f*
+			   (read-from-string (cadr tok))
+			   (read-from-string (caddr tok))))
+	       (format t "False~%")
+	       (format t "True~%")))
+	  ((string-equal op "cut")
+	   (format t "~d~%"
+		   (cut *f*
+			(read-from-string (cadr tok))
+			(read-from-string (caddr tok)))))
+	  ((string-equal op "reRoot")
+	   (reroot *f*
+		   (read-from-string (cadr tok))))
+	  ((string-equal op "LCA")
+	   (format t "~d~%"
+		   (LCA *f*
+			(read-from-string (cadr tok))
+			(read-from-string (caddr tok)))))
+	  ((string-equal op "Link")
+	   (Link *f*
+		 (read-from-string (cadr tok))
+		 (read-from-string (caddr tok))))
+	  ((string-equal op "LinkW")
+	   (LinkW *f*
+		   (read-from-string (cadr tok))
+		   (read-from-string (caddr tok))
+		   (read-from-string (cadddr tok))))
+	  ((string-equal op "getCost")
+	   (format t "~6$~%"
+		   (getCost *f*
+			    (read-from-string (cadr tok))
+			    (read-from-string (caddr tok)))))
+	  ((string-equal op "update")
+	   (update *f*
 		   (read-from-string (cadr tok))
 		   (read-from-string (caddr tok))))
-	  ((string-equal (car tok) "getNode")
-
-	   )
-	  ((string-equal (car tok) "edgeQ")
-
-	   )
-	  ((string-equal (car tok) "cut")
-
-	   )
-	  ((string-equal (car tok) "reRoot")
-
-	   )
-	  ((string-equal (car tok) "LCA")
-
-	   )
-	  ((string-equal (car tok) "Link")
-
-	   )
-	  ((string-equal (car tok) "LinkW")
-
-	   )
-	  ((string-equal (car tok) "getCost")
-
-	   )
-	  ((string-equal (car tok) "update")
-
-	   )
-	  ((string-equal (car tok) "getMin")
-
-	   )
-	  ((string-equal (car tok) "end") (return)))
-	(format t "~a~%" (car tok))
+	  ((string-equal op "getMin")
+	   (setf u (getMin *f* (read-from-string (cadr tok))))
+	   (format t "~6$~%"
+		   (getCost *f* u (getNode *f* u -1))))
+	  ((string-equal op "end") (return)))
 	))
-
-;; (link *f* 2 3)
-
-;; (format t "~d~%" (access *f* 2))
-;; (format t "~d~%" (access *f* 3))
 
 (foreign-funcall "free" :pointer *f*)

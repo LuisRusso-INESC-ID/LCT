@@ -7,6 +7,8 @@ function testF {
 #    ./linTester "$1" "$2" | tee -p splayInput pointerInput > /dev/null &
 
     cat splayInput | ./CLI > splayOutput &
+#    cat splayInput | clisp lct.lisp | tail -n +11 > splayOutput &
+
     cat pointerInput | ./pCLI > pointerOutput &
 #    cat pointerInput | python LCT.py > pointerOutput &
 #    cat pointerInput | java -cp . -Djava.library.path=. jLCT > pointerOutput &
@@ -58,8 +60,10 @@ fi
 mkfifo pointerOutput
 
 for N in 10 100 1000 10000 100000 1000000 # 10000000
+#for N in 10 100 1000 10000
 do
     for O in 10 100 1000 10000 100000 1000000 # 10000000
+#    for O in 10 100 1000 10000
     do
 	testF "${N}" "${O}"
     done
