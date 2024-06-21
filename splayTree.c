@@ -12,7 +12,7 @@ static /*@ dependent */ nodeT *getHook(splayT t, nodeT v);
 static void setSize(splayT t, nodeT v);
 /* Propagates flipA2Bs and weight deltas to sub-trees */
 static void propagate(splayT t, nodeT v);
-static void rotate(splayT t, nodeT v);
+
 
 /* Implementation starts here. */
 enum childClass classify(splayT t, nodeT v)
@@ -150,7 +150,7 @@ void propagate(splayT t, nodeT v)
 #endif /* _VERSION_W */
 }
 
-static void rotate(splayT t, nodeT v)
+void rotate(splayT t, nodeT v)
 {
   assertM(across != classify(t, v), "Trying to rotate node without a father");
 

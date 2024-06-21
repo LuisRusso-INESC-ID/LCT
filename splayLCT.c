@@ -30,7 +30,7 @@ unsigned int Access(LCT f, nodeT v)
     splay((splayT)f, p);
     setBelow((splayT)f, p, v);
     assertM(f[v].father == p, "Failing father test.");
-    splay((splayT)f, v);
+    rotate((splayT)f, v);
     p = f[v].father;
   }
 

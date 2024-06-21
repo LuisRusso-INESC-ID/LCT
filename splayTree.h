@@ -33,5 +33,6 @@ void setMin(splayT t, nodeT v);
 void flipA2B(splayT f, nodeT v);
 void splay(splayT f, nodeT v);
 nodeT getNodeOnSplay(splayT , nodeT v, int d);
+void rotate(splayT t, nodeT v);
 
 #endif /* SPLAYTREE_H */
