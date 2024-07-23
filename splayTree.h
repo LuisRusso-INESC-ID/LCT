@@ -20,9 +20,9 @@ bool above2belowQ(splayT t, nodeT v);
 /* Return nodes inorder. */
 /*@-exportlocal*/
 int inorderRec(splayT t, nodeT v, nodeT *I, bool ab);
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
 int inorderRecW(splayT t, nodeT v, costT d, costT *I, bool ab);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 /*@=exportlocal*/
 
 /* Call these functions whenever data in the struct changes. */

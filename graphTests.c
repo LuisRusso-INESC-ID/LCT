@@ -18,14 +18,14 @@ enum ops {
   OreRoot = Ocut + 0,
   OLCA = OreRoot + 2,
   OLink = OLCA + 2,
-#ifndef _VERSION_W
+#if !(defined _EDGE_W || defined _VERTEX_W)
   OLast = OLink,
-#else /* _VERSION_W */
+#else /* defined _EDGE_W || defined _VERTEX_W */
   OgetCost = OLink + 2,
   Oupdate = OgetCost + 0,
   OgetMin = Oupdate + 0,
   OLast = OgetMin
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 };
 
 /* Classical full test */
@@ -37,14 +37,14 @@ enum ops {
 /*   OreRoot = Ocut + 2, */
 /*   OLCA = OreRoot + 2, */
 /*   OLink = OLCA + 2, */
-/* #ifndef _VERSION_W */
+/* #if !(defined _EDGE_W || defined _VERTEX_W) */
 /*   OLast = OLink, */
-/* #else /\* _VERSION_W *\/ */
+/* #else /\* !(defined _EDGE_W || defined _VERTEX_W) *\/ */
 /*   OgetCost = OLink + 2, */
 /*   Oupdate = OgetCost + 2, */
 /*   OgetMin = Oupdate + 2, */
 /*   OLast = OgetMin */
-/* #endif /\* _VERSION_W *\/ */
+/* #endif /\* !(defined _EDGE_W || defined _VERTEX_W) *\/ */
 /* }; */
 
 struct edge
@@ -67,9 +67,9 @@ main(int argc, char **argv)
   nodeT v;
   nodeT u;
   LCT F;
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   int w;
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 
   int count = 0; /* Number of operations */
 
@@ -169,14 +169,13 @@ main(int argc, char **argv)
       u = G[p].u;
       v = G[p].v;
       if(u != v && 0 == LCA(F, u, v)){
-#ifdef _VERSION_W
-	w = arc4random_uniform(21)-10;
-	printf("LinkW %d %d %d\n", u, v, w);
-	LinkW(F, u, v, w);
-#else /* _VERSION_W */
 	printf("Link %d %d\n", u, v);
 	Link(F, u, v);
-#endif /* _VERSION_W */
+#if defined _EDGE_W || defined _VERTEX_W
+	w = arc4random_uniform(21)-10;
+	printf("setCost %d %d\n", u, w);
+	setCost(F, u, w);
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 	/* Remove from E */
 	E--;
 	G[p] = G[E];
@@ -185,7 +184,7 @@ main(int argc, char **argv)
       continue;
     }
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
     if(rd < OgetCost){
       v = 1 + arc4random_uniform(n);
       d = Access(F, v);
@@ -224,7 +223,7 @@ main(int argc, char **argv)
       }
       continue;
     }
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 #pragma GCC diagnostic pop /*-Wtype-limits*/
   }
 

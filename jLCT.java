@@ -19,7 +19,7 @@ class jLCT {
     public native void jreRoot(int v);
     public native int jLCA(int u, int v);
     public native void jLink(int u, int v);
-    public native void jLinkW(int u, int v, double w);
+    public native double jsetCost(int u, double w);
     public native double jgetCost(int u, int v);
     public native void jupdate(int v, double w);
     public native int jgetMin(int v);
@@ -33,11 +33,11 @@ class jLCT {
 	this.cLCT = jallocLCT(n);
     }
 
-    @Override
-    protected void finalize() {
-	// System.out.println("Calling finalize");
-	this.jfreeLCT();
-    }
+    // @Override
+    // protected void finalize() {
+    // 	// System.out.println("Calling finalize");
+    // 	this.jfreeLCT();
+    // }
 
     public static void main(String[] args) {
 	jLCT F = null;
@@ -95,8 +95,8 @@ class jLCT {
 		continue;
 	    }
 
-	    if("LinkW".equals(tok)){
-		F.jLinkW(scanToks.nextInt(), scanToks.nextInt(), scanToks.nextDouble());
+	    if("setCost".equals(tok)){
+		System.out.printf("%f\n", F.jsetCost(scanToks.nextInt(), scanToks.nextDouble()));
 		continue;
 	    }
 
@@ -117,6 +117,6 @@ class jLCT {
 		continue;
 	    }
 	}
-	F.finalize();
+	// F.finalize();
     }
 }

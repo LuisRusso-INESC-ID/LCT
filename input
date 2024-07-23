@@ -1,29 +1,128 @@
 allocLCT 10
-edgeQ 2 1
+reRoot 3
+edgeQ 6 7
 # false
-reRoot 8
-reRoot 10
-LCA 2 9
+getNode 1 1
 # 0
-edgeQ 7 2
-# false
-Link 7 1
-edgeQ 9 2
-# false
-reRoot 5
-edgeQ 10 2
-# false
-LCA 7 2
+LCA 5 6
+# 0
+getNode 3 1
+# 0
+Link 4 3
+setCost 4 -10
+Access 5
 # 0
 reRoot 6
-reRoot 4
-Link 4 3
-edgeQ 10 9
-# false
-Access 3
+reRoot 6
+cut 9 6
 # 0
-LCA 8 8
-# 8
-LCA 3 4
+getNode 1 1
+# 0
+LCA 7 7
+# 7
+getNode 10 1
+# 0
+Access 9
+# 0
+Link 8 3
+setCost 8 -9
+getCost 3 8
+Link 2 1
+setCost 2 4
+getCost 3 8
+cut 6 5
+# 0
+getCost 3 8
+cut 6 1
+# 0
+getCost 3 8
+cut 1 6
+# 0
+getCost 3 8
+reRoot 10
+getCost 3 8
+Access 10
+# 0
+getCost 3 8
+getNode 1 1
+# 0
+getCost 3 8
+LCA 2 6
+# 0
+getCost 3 8
+Access 8
+# 1
+getCost 3 8
+getNode 3 1
+# 0
+getCost 3 8
+edgeQ 5 3
+# false
+getCost 3 8
+Link 3 7
+setCost 3 -10
+getCost 3 8
+Link 4 9
+setCost 4 4
+getCost 3 8
+getMin 8
+# -10.000000
+getCost 3 8
+getNode 4 1
+# 4
+getCost 3 8
+getNode 8 -5
+# 0
+getCost 3 8
+getNode 8 2
 # 3
+getCost 3 8
+Access 5
+# 0
+getCost 3 8
+LCA 1 10
+# 0
+getCost 3 8
+Access 8
+# 3
+getCost 3 8
+edgeQ 2 10
+# false
+getCost 3 8
+Access 9
+# 0
+getCost 3 8
+LCA 10 5
+# 0
+getCost 3 8
+getNode 7 -2
+# 4
+getCost 3 8
+getNode 1 1
+# 0
+getCost 3 8
+edgeQ 3 1
+# false
+getCost 3 8
+setCost 7 -10
+getCost 3 8
+Access 3
+# 2
+getCost 3 8
+Access 5
+# 0
+getCost 3 8
+Link 3 6
+setCost 3 8
+getCost 3 8
+LCA 3 9
+# 3
+getCost 3 8
+getNode 6 1
+# 0
+getCost 3 8
+edgeQ 4 1
+# false
+getCost 3 8
+# -9.000000
 end

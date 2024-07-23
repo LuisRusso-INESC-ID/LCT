@@ -3,8 +3,8 @@
 
 #define assertM(T, M) {/*@-boolops*/ assert((T) && (M)); /*@=boolops*/}
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
 #define assertW(T, M) {/*@-realcompare*/ assertM(T, M); /*@=realcompare*/}
-#else /* _VERSION_W */
+#else /* defined _EDGE_W || defined _VERTEX_W */
 #define assertW(T, M) ;
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */

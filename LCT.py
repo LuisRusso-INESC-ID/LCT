@@ -43,12 +43,12 @@ LCA = lib.LCA
 LCA.argtypes = [LCT, nodeT, nodeT]
 LCA.restype = nodeT
 
-if hasattr(lib, 'Link'):
-    Link = lib.Link
-    Link.argtypes = [LCT, nodeT, nodeT]
-else:
-    LinkW = lib.LinkW
-    LinkW.argtypes = [LCT, nodeT, nodeT, costT]
+Link = lib.Link
+Link.argtypes = [LCT, nodeT, nodeT]
+
+if hasattr(lib, 'setCost'):
+    setCost = lib.setCost
+    setCost.argtypes = [LCT, nodeT, costT]
 
     getCost = lib.getCost
     getCost.argtypes = [LCT, nodeT, nodeT]
@@ -94,8 +94,8 @@ for line in fileinput.input():
        case "Link":
            Link(F, int(tok[1]), int(tok[2]))
 # These are only for w version, but should not exist on input otherwise
-       case "LinkW":
-           LinkW(F, int(tok[1]), int(tok[2]), float(tok[3]))
+       case "setCost":
+           setCost(F, int(tok[1]), float(tok[2]))
        case "getCost":
           print('%f' % getCost(F, int(tok[1]), int(tok[2])))
        case "update":

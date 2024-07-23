@@ -121,7 +121,7 @@ depend.mak: $(CS) $(HS)
 ## Clean up
 clean:
 	@echo Cleaning Up
-	rm -f $(EXEC) $(STATS) $(COVS) $(IS) $(SS) $(OS) gmon.out depend.mak *~ callgrind.out.* cachegrind.out.* CLI pCLI tester linTester pointerLCT.o splayLCT.so pointerLCT.so jLCT.class jLCT.h libSplayLCT.so libPointerLCT.so {pointer,splay}{In,Out}put *.hls graphTester
+	rm -f $(EXEC) $(STATS) $(COVS) $(IS) $(SS) $(OS) gmon.out depend.mak *~ callgrind.out.* cachegrind.out.* CLI pCLI tester linTester pointerLCT.o splayLCT.so pointerLCT.so jLCT.class jLCT.h libSplayLCT.so libPointerLCT.so {pointer,splay}{In,Out}put
 
 ## TAGS
 tags: TAGS
@@ -142,7 +142,8 @@ pcheck: pointerLCT.c LCT.h
 
 CLI: splayLCT.o splayTree.o CLI.c splayPrinter.o
 	@echo Linking: $@
-	$(CC) $(CFLAGS) $^ -o $@ -lm -lc -DSPRINT
+#	$(CC) $(CFLAGS) $^ -o $@ -lm -lc -DSPRINT
+	$(CC) $(CFLAGS) $^ -o $@ -lm -lc
 
 pCLI: pointerLCT.o CLI.c
 	@echo Linking: $@

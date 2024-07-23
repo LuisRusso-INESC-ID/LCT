@@ -75,42 +75,38 @@ JNIEXPORT jint JNICALL Java_jLCT_jLCA
 
 JNIEXPORT void JNICALL Java_jLCT_jLink
   (JNIEnv *env, jobject this, jint u, jint v)
-{
-#ifndef _VERSION_W
-  Link(getLCT(env, this), u, v);
-#endif /* _VERSION_W */
-}
+{ Link(getLCT(env, this), u, v); }
 
-JNIEXPORT void JNICALL Java_jLCT_jLinkW
-(JNIEnv *env, jobject this, jint u, jint v, jdouble w)
+JNIEXPORT void JNICALL Java_jLCT_jsetCost
+(JNIEnv *env, jobject this, jint u, jdouble w)
 {
-#ifdef _VERSION_W
-  LinkW(getLCT(env, this), u, v, w);
-#endif /* _VERSION_W */
+#if defined _EDGE_W || defined _VERTEX_W
+  setCost(getLCT(env, this), u, w);
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 }
 
 JNIEXPORT jdouble JNICALL Java_jLCT_jgetCost
 (JNIEnv *env, jobject this, jint u, jint v)
 {
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   return (jdouble)getCost(getLCT(env, this), u, v);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 }
 
 JNIEXPORT void JNICALL Java_jLCT_jupdate
 (JNIEnv *env, jobject this, jint v, jdouble w)
 {
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   update(getLCT(env, this), v, w);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 }
 
 JNIEXPORT jint JNICALL Java_jLCT_jgetMin
 (JNIEnv *env, jobject this, jint v)
 {
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   return (jint)getMin(getLCT(env, this), v);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 }
 #pragma GCC diagnostic pop /*-Wreturn*/
 #pragma GCC diagnostic pop /*-Wunused-parameter*/

@@ -67,10 +67,9 @@
   (u :unsigned-int)
   (v :unsigned-int))
 
-(defcfun "LinkW" :void
+(defcfun "setCost" :void
   (f :pointer)
   (u :unsigned-int)
-  (v :unsigned-int)
   (w :double))
 
 (defcfun "getCost" :double
@@ -133,11 +132,11 @@
 	   (Link *f*
 		 (read-from-string (cadr tok))
 		 (read-from-string (caddr tok))))
-	  ((string-equal op "LinkW")
-	   (LinkW *f*
-		   (read-from-string (cadr tok))
-		   (read-from-string (caddr tok))
-		   (read-from-string (cadddr tok))))
+	  ((string-equal op "setCost")
+	   (format t "~6$~%"
+		   (setCost *f*
+			    (read-from-string (cadr tok))
+			    (read-from-string (caddr tok)))))
 	  ((string-equal op "getCost")
 	   (format t "~6$~%"
 		   (getCost *f*

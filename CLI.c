@@ -108,7 +108,6 @@ main(void)
       continue;
     }
 
-#ifndef _VERSION_W
     if(0 == strcmp("Link", tok)){
       tok = strtok(NULL, " \t\n");
       sscanf(tok, "%ud", &u);
@@ -118,16 +117,15 @@ main(void)
       Link(F, u, v);
       continue;
     }
-#else /* _VERSION_W */
-    if(0 == strcmp("LinkW", tok)){
+
+#if defined _EDGE_W || defined _VERTEX_W
+    if(0 == strcmp("setCost", tok)){
       tok = strtok(NULL, " \t\n");
       sscanf(tok, "%ud", &u);
       tok = strtok(NULL, " \t\n");
-      sscanf(tok, "%ud", &v);
-      tok = strtok(NULL, " \t\n");
       costT w = 0;
       sscanf(tok, "%lf", &w);
-      LinkW(F, u, v, w);
+      setCost(F, u, w);
       continue;
     }
 
@@ -158,7 +156,7 @@ main(void)
       printf("%f\n", getCost(F, u, v));
       continue;
     }
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 
 #ifdef SPRINT
     if(0 == strcmp("print", tok)){

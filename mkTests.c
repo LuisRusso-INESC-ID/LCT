@@ -9,6 +9,25 @@
 
 /* #define arc4random_uniform(N) random()%N */
 
+/* enum ops { */
+/*   OAccess = 0 + 0, */
+/*   OgetNode = OAccess + 0, */
+/*   OedgeQ = OgetNode + 0, */
+/*   Ocut = OedgeQ + 1, */
+/*   OreRoot = Ocut + 0, */
+/*   OLCA = OreRoot + 0, */
+/*   OLink = OLCA + 2, */
+/* #if !(defined _EDGE_W || defined _VERTEX_W) */
+/*   OLast = OLink, */
+/* #else /\* defined _EDGE_W || defined _VERTEX_W *\/ */
+/*   OsetCost = OLink + 0, */
+/*   OgetCost = OsetCost + 0, */
+/*   Oupdate = OgetCost + 2, */
+/*   OgetMin = Oupdate + 2, */
+/*   OLast = OgetMin */
+/* #endif /\* defined _EDGE_W || defined _VERTEX_W *\/ */
+/* }; */
+
 enum ops {
   OAccess = 0 + 2,
   OgetNode = OAccess + 2,
@@ -17,14 +36,15 @@ enum ops {
   OreRoot = Ocut + 2,
   OLCA = OreRoot + 2,
   OLink = OLCA + 2,
-#ifndef _VERSION_W
+#if !(defined _EDGE_W || defined _VERTEX_W)
   OLast = OLink,
-#else /* _VERSION_W */
-  OgetCost = OLink + 2,
+#else /* defined _EDGE_W || defined _VERTEX_W */
+  OsetCost = OLink + 2,
+  OgetCost = OsetCost + 2,
   Oupdate = OgetCost + 2,
   OgetMin = Oupdate + 2,
   OLast = OgetMin
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 };
 
 int
@@ -33,13 +53,13 @@ main(int argc, char **argv)
   int d;
   unsigned int n = 10;
   unsigned int ops = 5;
-  uint32_t rd = 0;
+  int rd = 0;
   nodeT v;
   nodeT u;
   LCT F;
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   int w;
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 
   if(3 != argc)
     exit(EXIT_FAILURE);
@@ -101,10 +121,13 @@ main(int argc, char **argv)
       repeat = false;
       u = 1 + arc4random_uniform(n);
       v = 1 + arc4random_uniform(n);
-      if(0 < Access(F, u) && 0 == arc4random_uniform(3))
-	v = getNode(F, u, -1);
-      printf("cut %d %d\n", u, v);
-      printf("# %d\n", cut(F, u, v));
+      if(0 < Access(F, u) && 0 == arc4random_uniform(3)){
+	printf("cut %d 0\n", u);
+	printf("# %d\n", cut(F, u, 0));
+      } else {
+	printf("cut %d %d\n", u, v);
+	printf("# %d\n", cut(F, u, v));
+      }
       continue;
     }
 
@@ -139,19 +162,28 @@ main(int argc, char **argv)
       v = 1 + arc4random_uniform(n);
       if(u != v && 0 == LCA(F, u, v)){
 	repeat = false;
-#ifdef _VERSION_W
-	w = arc4random_uniform(21)-10;
-	printf("LinkW %d %d %d\n", u, v, w);
-	LinkW(F, u, v, w);
-#else /* _VERSION_W */
 	printf("Link %d %d\n", u, v);
 	Link(F, u, v);
-#endif /* _VERSION_W */
+#if defined _EDGE_W || defined _VERTEX_W
+	w = arc4random_uniform(21)-10;
+	printf("setCost %d %d\n", u, w);
+	setCost(F, u, w);
+#endif /* defined _EDGE_W || defined _VERTEX_W */
       }
       continue;
     }
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
+    if(rd < OsetCost){
+      u = 1 + arc4random_uniform(n);
+      w = arc4random_uniform(21)-10;
+#ifdef _EDGE_W
+      if(1 < Access(F, u))
+#endif /* _EDGE_W */
+	printf("setCost %d %d\n", u, w);
+      continue;
+    }
+
     if(rd < OgetCost){
       v = 1 + arc4random_uniform(n);
       d = Access(F, v);
@@ -190,7 +222,7 @@ main(int argc, char **argv)
       }
       continue;
     }
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
   }
 
   printf("end\n");

@@ -63,7 +63,7 @@ int inorderRec(splayT t, nodeT v, nodeT *I, bool ab)
   return r;
 }
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
 int inorderRecW(splayT t, nodeT v, costT d, costT *I, bool ab)
 {
   assertM(0 != v, "Nothing to show at 0.");
@@ -94,7 +94,7 @@ int inorderRecW(splayT t, nodeT v, costT d, costT *I, bool ab)
 }
 
 #define miniM(M, V) if((V) < (M)) (M) = (V);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 
 void setSize(splayT t, nodeT v)
 {
@@ -106,20 +106,22 @@ void setSize(splayT t, nodeT v)
   setMin(t, v);
 }
 
-#ifndef _VERSION_W
+#if !(defined _EDGE_W || defined _VERTEX_W)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 void setMin(/*@unused@*/splayT t, /*@unused@*/nodeT v) {}
 #pragma GCC diagnostic pop /*-Wunused-parameter*/
-#else /* _VERSION_W */
+#else /* defined _EDGE_W || defined _VERTEX_W */
 void setMin(splayT t, nodeT v)
 {
   t[v].min = t[v].w;
+#ifdef _EDGE_W
   if(0 == t[v].father) t[v].min = _COST_MAX;
+#endif /* _EDGE_W */
   if(0 != t[v].above) miniM(t[v].min, t[t[v].above].min + t[v].d);
   if(0 != t[v].below) miniM(t[v].min, t[t[v].below].min + t[v].d);
 }
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 
 void setBelow(splayT t, nodeT u, nodeT v)
 {
@@ -139,7 +141,7 @@ void propagate(splayT t, nodeT v)
     flipA2B(t, t[v].below);
   }
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   t[t[v].above].d += t[v].d;
   t[t[v].above].w += t[v].d;
   t[t[v].above].min += t[v].d;
@@ -147,7 +149,7 @@ void propagate(splayT t, nodeT v)
   t[t[v].below].w += t[v].d;
   t[t[v].below].min += t[v].d;
   t[v].d = (costT) 0;
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 }
 
 void rotate(splayT t, nodeT v)
@@ -169,15 +171,19 @@ void rotate(splayT t, nodeT v)
   t[*vb].father = v;
   t[*ua].father = u;
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
+#ifdef _EDGE_W
   swapM(costT, t[v].w, t[u].w);
+#endif /* _EDGE_W */
   if(0 != *ua){
     propagate(t, *ua);
+#ifdef _EDGE_W
     swapM(costT, t[u].w, t[*ua].w);
+#endif /* _EDGE_W */
     setMin(t, *ua);
   }
   t[v].min = t[u].min;
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
   t[v].size = t[u].size;
   setSize(t, u);
 }

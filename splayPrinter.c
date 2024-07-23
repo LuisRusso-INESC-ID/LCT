@@ -12,9 +12,9 @@
 struct edge {
   nodeT u;
   nodeT v;
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   costT w;
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 };
 
 typedef struct elist *elist;
@@ -102,10 +102,10 @@ static void printEL(elist l, bool dash)
       fprintf(pf, "[linestyle=dashed]");
     fprintf(pf, "{N%d}{N%d}", e->e.v, e->e.u);
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
     fprintf(pf, " \\ncput*[npos=0.2]");
     fprintf(pf, "{\\psrotateleft{\\psscalebox{-1 1}{%.1f}}}", e->e.w);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 
     fprintf(pf, "\n");
     e = e->nxt;
@@ -165,18 +165,18 @@ void printLCT(LCT f, unsigned int n, char* fname)
   /* Printing stuff */
   fprintf(pf, "\\psset{arrows=->}\n");
   fprintf(pf, "\\psscalebox{-1 1}{\\psrotateright{\n");
-#ifdef _VERSION_W
-  fprintf(pf, "$\\psmatrix[mnode=Circle,emnode=none,radius=3mm,colsep=1.2,rowsep=0.3,arrowscale=2.5]\n");
-#else /* _VERSION_W */
-  fprintf(pf, "$\\psmatrix[mnode=Circle,emnode=none,radius=3mm,colsep=0.8,rowsep=0.3,arrowscale=2.5]\n");
-#endif /* _VERSION_W */
+#if defined _EDGE_W || defined _VERTEX_W
+  fprintf(pf, "\\psmatrix[mnode=Circle,emnode=none,radius=3mm,colsep=1.2,rowsep=0.3,arrowscale=2.5]\n");
+#else /* defined _EDGE_W || defined _VERTEX_W */
+  fprintf(pf, "\\psmatrix[mnode=Circle,emnode=none,radius=3mm,colsep=0.8,rowsep=0.3,arrowscale=2.5]\n");
+#endif /* defined _EDGE_W || defined _VERTEX_W */
   fprintf(pf, "%%\n");
 
   int col = 0; /* Column count */
   nodeT *ino = malloc(sizeof *ino * (n+1));
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   costT *inoW = malloc(sizeof *inoW * (n+1));
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
   int *St = malloc(sizeof *St *n);
   int Stn = 0;
 
@@ -209,26 +209,26 @@ void printLCT(LCT f, unsigned int n, char* fname)
     }
 
     inorderRec(t, u, &ino[col], true);
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
     inorderRecW(t, u, 0.0, &inoW[col], true);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 
     if(1 < col){
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
       append(cedges, (struct edge){ino[col-1], ino[col], t[u].w});
-#else /* _VERSION_W */
+#else /* defined _EDGE_W || defined _VERTEX_W */
       append(cedges, (struct edge){ino[col-1], ino[col]});
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
       putc('&', pf);
     }
 
     for(i = 0; i < abs(f[u].size); i++){
       if(0 < i){
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
       append(bedges, (struct edge){ino[col-1], ino[col], inoW[col-1]});
-#else /* _VERSION_W */
+#else /* defined _EDGE_W || defined _VERTEX_W */
       append(bedges, (struct edge){ino[col-1], ino[col]});
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 	putc('&', pf);
       }
       fprintf(pf, " [name=N%d]", ino[col]);
@@ -251,12 +251,12 @@ void printLCT(LCT f, unsigned int n, char* fname)
   printEL(cedges, true);
   freeEList(cedges);
 
-  fprintf(pf, "\\endpsmatrix$\n");
+  fprintf(pf, "\\endpsmatrix\n");
   fprintf(pf, "}}\n");
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   free(inoW);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
   free(ino);
   free(St);
   free(c);
@@ -289,33 +289,33 @@ void printSplay(splayT t, unsigned int n, nodeT v, char* fname)
 
   nodeT *ino = malloc(sizeof *ino * abs(t[v].size));
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   costT *inoW = malloc(sizeof *inoW * abs(t[v].size));
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 
   inorderRec(t, v, ino, true);
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   inorderRecW(t, v, 0.0, inoW, true);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
 
   for(int i = 0; i < abs(t[v].size); i++){
     nodeT v = ino[i];
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
     fprintf(pf, "\\rput[tl](%f, %f)", i*2.2, -dp[v]*2.5);
-#else /* _VERSION_W */
+#else /* defined _EDGE_W || defined _VERTEX_W */
     fprintf(pf, "\\rput[tl](%f, %f)", i*1.8, -dp[v]*1.6);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
     fprintf(pf, "{\\rnode{N%.2d}{\n", v);
     fprintf(pf, "\\psframebox[framearc=0.3]{\n");
     fprintf(pf, "\\begin{tabular}{r @{=} l}\n");
     fprintf(pf, "v & %d \\\\ \\hline\n", v);
     fprintf(pf, "size & %d \\\\ \n", t[v].size);
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
     fprintf(pf, "\\hline\n");
     fprintf(pf, "d & %.2f \\\\ \\hline\n", t[v].d);
     fprintf(pf, "w & %.2f \\\\ \\hline\n", t[v].w);
     fprintf(pf, "min & %.2f\n", t[v].min);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
     fprintf(pf, "\\end{tabular}}}}\n");
   }
 
@@ -346,9 +346,9 @@ void printSplay(splayT t, unsigned int n, nodeT v, char* fname)
 
   for(int i = 1; i < abs(t[v].size); i++){
     fprintf(pf, "\\ncline{C%.2d}{C%.2d} ", ino[i], ino[i-1]);
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
     fprintf(pf, "\\nbput{%.2f}", inoW[i-1]);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
   fprintf(pf, "\n");
   }
 
@@ -371,9 +371,9 @@ void printSplay(splayT t, unsigned int n, nodeT v, char* fname)
     }
   }
 
-#ifdef _VERSION_W
+#if defined _EDGE_W || defined _VERTEX_W
   free(inoW);
-#endif /* _VERSION_W */
+#endif /* defined _EDGE_W || defined _VERTEX_W */
   free(ino);
   free(dp);
   fclose(pf);
