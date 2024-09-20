@@ -124,7 +124,7 @@ costT getCost(LCT f, nodeT u, /*@unused@*/ nodeT v)
 {
 #ifdef _EDGE_W
   if(0 == v) v = getNode(f, u, -1);
-  assertM(edgeQ(f, u, v), "Cost for unexisting edge ???");
+  assertM(edgeQ(f, u, v), "Cost for unexisting edge.");
   if(f[v].father == u) u = v;
 #endif /* _EDGE_W */
   return f[u].w;

@@ -62,12 +62,21 @@ Execute `make` to obtain the binaries `CLI`, `pCLI`, `project`, `tester`,
 make
 ```
 
-This compiles the unweighted version. To obtain binaries for the weighted
+This compiles the unweighted version. To obtain binaries for the edge-weighted
 version uncomment the following line on the `LCT.h` file.
 
 ```
-/* #define _VERSION_W */
+/* #define _EDGE_W */
 ```
+
+To obtain binaries for the vertex-weighted version uncomment the following
+line.
+
+```
+/* #define _VERTEX_W */
+```
+
+Do not use both definitions simultaneously.
 
 Make sure to clean up before re-compiling, so:
 

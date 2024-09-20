@@ -5,7 +5,7 @@
 /* Configuration */
 
 /* Comment for non-weighted version */
-#define _EDGE_W
+/* #define _EDGE_W */
 /* #define _VERTEX_W */
 typedef double costT; /* Type for edge costs. */
 #include <float.h>
@@ -34,7 +34,7 @@ nodeT LCA(LCT f, nodeT u, nodeT v); /* Return 0 if not in the same tree. */
 void Link(LCT f, nodeT u, nodeT v); /* Tree containing u looses root. */
 
 #if (defined _EDGE_W || defined _VERTEX_W)
-void setCost(LCT f, nodeT u, costT w); /* Change Cost */
+void setCost(LCT f, nodeT u, costT w);
 costT getCost(LCT f, nodeT u, nodeT v);
 void update(LCT f, nodeT v, costT w); /* Add w to elements of branch. */
 nodeT getMin(LCT f, nodeT v); /* Get the node or lower node of min element. */
